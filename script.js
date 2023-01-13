@@ -22,13 +22,16 @@ scoreEl0.textContent = 0;
 scoreEl1.textContent = 0;
 let currentScore = 0;
 let scores = [0, 0];
-let playing = true;
-
 let activePlayer = 0;
 
+// set a playing variable to stop the game when winning
+let playing = true;
+
+//add a hidden class to the dice image
 imgDice.classList.add('hidden');
 
 // functions
+// swith player function
 const switchPlayer = function () {
   document.querySelector(`#current--${activePlayer}`).textContent = 0;
   currentScore = 0;
@@ -36,6 +39,8 @@ const switchPlayer = function () {
   playerEl0.classList.toggle('player--active');
   playerEl1.classList.toggle('player--active');
 };
+
+// roll the dice function
 const rollDice = function () {
   if (playing) {
     const randomNum = Math.random();
@@ -53,6 +58,7 @@ const rollDice = function () {
   }
 };
 
+// hold function
 const holdScore = function () {
   if (playing) {
     scores[activePlayer] += currentScore;
