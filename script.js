@@ -28,6 +28,13 @@ let activePlayer = 0;
 imgDice.classList.add('hidden');
 
 // functions
+const switchPlayer = function () {
+  document.querySelector(`#current--${activePlayer}`).textContent = 0;
+  currentScore = 0;
+  activePlayer = activePlayer === 0 ? 1 : 0;
+  playerEl0.classList.toggle('player--active');
+  playerEl1.classList.toggle('player--active');
+};
 const rollDice = function () {
   const randomNum = Math.random();
   const dice = Math.ceil((randomNum !== 0 ? randomNum : randomNum + 0.1) * 6);
@@ -39,14 +46,17 @@ const rollDice = function () {
     document.querySelector(`#current--${activePlayer}`).textContent =
       currentScore;
   } else {
-    document.querySelector(`#current--${activePlayer}`).textContent = 0;
-    currentScore = 0;
-    currentScore += dice;
-    activePlayer = activePlayer === 0 ? 1 : 0;
-    playerEl0.classList.toggle('player--active');
-    playerEl1.classList.toggle('player--active');
+    switchPlayer();
   }
+};
+
+const holdScore = function () {
+  scores[activePlayer] += currentScore;
+  document.querySelector(`#score--${activePlayer}`).textContent =
+    scores[activePlayer];
+  switchPlayer();
 };
 
 // add event listeners
 btnRoll.addEventListener('click', rollDice);
+btnHold.addEventListener('click', holdScore);
