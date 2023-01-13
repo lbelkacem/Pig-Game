@@ -10,25 +10,37 @@ const playerEl1 = document.querySelector('.player--1');
 const imgDice = document.querySelector('.dice');
 
 //***Player 1***
-
+const currentPl0 = document.querySelector(`#current--0`);
 const scoreEl0 = document.querySelector('#score--0');
 
 //***Player 2***
-
+const currentPl1 = document.querySelector(`#current--1`);
 const scoreEl1 = document.querySelector('#score--1');
 
 // initialization
-scoreEl0.textContent = 0;
-scoreEl1.textContent = 0;
-let currentScore = 0;
-let scores = [0, 0];
-let playing = true;
 
-let activePlayer = 0;
+let scores, currentScore, activePlayer, playing;
+const init = function () {
+  scores = [0, 0];
+  currentScore = 0;
+  activePlayer = 0;
+  playing = true;
 
-imgDice.classList.add('hidden');
+  scoreEl0.textContent = 0;
+  scoreEl1.textContent = 0;
+  currentPl0.textContent = 0;
+  currentPl1.textContent = 0;
+
+  imgDice.classList.add('hidden');
+  playerEl0.classList.remove('player--winner');
+  playerEl1.classList.remove('player--winner');
+  playerEl0.classList.add('player--active');
+  playerEl1.classList.remove('player--active');
+};
+init();
 
 // functions
+// switch player function
 const switchPlayer = function () {
   document.querySelector(`#current--${activePlayer}`).textContent = 0;
   currentScore = 0;
@@ -36,6 +48,8 @@ const switchPlayer = function () {
   playerEl0.classList.toggle('player--active');
   playerEl1.classList.toggle('player--active');
 };
+
+// Roll the dice function
 const rollDice = function () {
   if (playing) {
     const randomNum = Math.random();
@@ -53,13 +67,14 @@ const rollDice = function () {
   }
 };
 
+// hold the score function
 const holdScore = function () {
   if (playing) {
     scores[activePlayer] += currentScore;
     document.querySelector(`#score--${activePlayer}`).textContent =
       scores[activePlayer];
     if (scores[activePlayer] >= 100) {
-      playing = false;
+      playing = false; //stop the game if winning (score>=100)
       imgDice.classList.add('hidden');
       document
         .querySelector(`.player--${activePlayer}`)
@@ -77,3 +92,4 @@ const holdScore = function () {
 
 btnRoll.addEventListener('click', rollDice);
 btnHold.addEventListener('click', holdScore);
+btnNew.addEventListener('click', init);
